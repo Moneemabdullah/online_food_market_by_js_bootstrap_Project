@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Signika+Negative:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+      integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Bootstrap 5 CDN -->
+    <link href="bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Header Section -->
+    <header class="container text-center z-50" id="header">
+      <nav
+        class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-lg p-3"
+      >
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Demo</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#header" id="home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#searchFild">Foods</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#footer">Contact</a>
+              </li>
+              <li class="nav-item">
+                <button
+                  class="btn btn-secondary"
+                  onclick="document.getElementById('foodSideBarList').classList.toggle('d-none');"
+                >
+                  List
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Sidebar Popup -->
+    <section
+      id="foodSideBarList"
+      class="position-fixed top-0 end-0 h-100 bg-dark bg-opacity-50 d-none z-30"
+    >
+      <div
+        class="bg-white shadow-lg w-300px h-100 p-4 position-relative rounded-3xl"
+      >
+        <button
+          class="position-absolute top-50 start-50 translate-middle bg-light text-dark rounded-circle p-2 shadow-md"
+          onclick="document.getElementById('foodSideBarList').classList.add('d-none');"
+        >
+          <span class="fs-4">&rang;</span>
+        </button>
+        <h1 class="fs-5 fw-semibold mb-4">
+          List of Food: <span id="count">0</span>
+        </h1>
+        <button
+          class="btn btn-danger w-100"
+          id="removeALL"
+          onclick="removeButton()"
+        >
+          Remove All
+        </button>
+        <div id="foodList" class="mb-4 overflow-auto">
+          <!-- Food items will appear here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="foodDetailsModal"
+      tabindex="-1"
+      aria-labelledby="foodDetailsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="foodDetailsModalLabel">Food Details</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <img id="foodDetailImage" class="img-fluid mb-3" alt="Food Image" />
+            <h4 id="foodDetailName"></h4>
+            <p>
+              <strong>Category: </strong><span id="foodDetailCategory"></span>
+            </p>
+            <p>
+              <strong>Instructions: </strong
+              ><span id="foodDetailInstructions"></span>
+            </p>
+            <p><strong>Price: </strong><span id="foodDetailPrice"></span></p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Section -->
+    <section class="container" style="padding-top: 120px">
+      <div class="d-flex justify-content-center gap-4 pt-5 px-4 b-10">
+        <input
+          type="search"
+          class="form-control w-50 p-2"
+          placeholder="Search foods"
+          id="searchFild"
+        />
+        <button class="btn btn-primary" id="submit" onclick="searchPlayer()">
+          Search
+        </button>
+      </div>
+    </section>
+
+    <!-- All Foods Section -->
+    <!-- All Foods Section (Updated Grid Layout) -->
+    <section class="container mt-5">
+      <div class="text-center py-4 fs-1">
+        <h1>All Foods</h1>
+      </div>
+      <div
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4"
+        id="foods"
+      >
+        <!-- Food cards will be injected here -->
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="container bg-light pt-5 px-4 mt-5" id="footer">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="logo">
+          <h1 class="fs-1 fw-bold">Demo</h1>
+        </div>
+        <nav class="quick-section list-unstyled d-flex gap-4">
+          <li class="cursor-pointer">
+            <a href="#header">Home</a>
+          </li>
+          <li class="cursor-pointer">Foods</li>
+          <li class="cursor-pointer">About</li>
+          <li class="cursor-pointer">Contact</li>
+        </nav>
+      </div>
+      <div class="border-top my-4 py-3 text-center text-muted">
+        <p>© MOneem. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Details Pop-Up View -->
+    <div id="foodDetailsModel" class="d-none"></div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
